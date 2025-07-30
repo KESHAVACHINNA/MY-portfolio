@@ -70,7 +70,7 @@
     border-radius: 50%;
     overflow: hidden;
     box-shadow:
-      0 0 10px #3fe3c4,
+      0 0 10px #3fe365,
       0 0 20px #3fe3c4,
       0 0 30px #1de9b6,
       0 0 40px #1de9b6;
@@ -96,12 +96,13 @@
     position: relative;
   }
   #hero h1 {
-    font-weight: 700;
-    font-size: clamp(3rem, 7vw, 6rem);
-    color: #3fe3c4;
-    text-shadow: 0 0 10px #3fe3c4;
-    margin-bottom: 0.25rem;
-  }
+  font-weight: 700;
+  font-size: clamp(3rem, 7vw, 6rem);
+  color: #3fe3c4; /* bright cyan */
+  text-shadow: 0 0 10px #3fe3c4;
+  margin-bottom: 0.25rem;
+}
+
   #hero h2 {
     font-weight: 500;
     font-size: clamp(1.5rem, 5vw, 2.5rem);
@@ -197,10 +198,10 @@
     margin: 0 auto;
   }
 
-  /* 3D Skill Icon Sphere container */
+  /* 3D Skill Icon Sphere container - NOTE: fixed width from negative to positive */
   #skills-icon-ring {
     position: relative;
-    width: -5000px;
+    width: 0px;
     height: 320px;
     perspective: 800px;
     margin: 0 auto;
@@ -425,6 +426,41 @@
       flex: 1 1 auto;
     }
   }
+
+  /* Animated Bot Text at Bottom */
+
+  #bot-text {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(13, 25, 37, 0.9);
+    padding: 12px 24px;
+    border-radius: 24px;
+    box-shadow: 0 0 10px #3fe3c4aa;
+    color: #3fe3c4;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    user-select: none;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .blinking-cursor {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #3fe3c4;
+    margin-left: 4px;
+    animation: blink-caret 1s step-start infinite;
+  }
+
+  @keyframes blink-caret {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
 </style>
 </head>
 <body>
@@ -439,13 +475,12 @@
   <a href="#contact">Contact</a>
   <a href="channakeshavareddy_aspering_datascientist.pdf" target="_blank">Resume</a>
 </nav>
-
 <!-- Hero Section -->
 <section id="hero">
   <div id="profile-pic-container" class="mx-auto">
     <img id="profile-pic" src="https://placehold.co/170x170/3fe3c4/092222?text=CK" alt="Channakeshava Reddy" />
   </div>
-  <h1>Channakeshava Reddy</h1>
+  <h1 class="text-indigo-400">Channakeshava Reddy</h1>
   <h2 id="hero-subtitle"></h2>
   <p>
     Turning data into actionable insights, interactive analytics, and innovative machine learning products.<br />
@@ -778,6 +813,12 @@
   &copy; 2025 Channakeshava Reddy. All rights reserved.
 </footer>
 
+<!-- Animated Bot Text at Bottom -->
+<div id="bot-text" aria-live="polite" aria-atomic="true" role="contentinfo">
+  <span id="bot-message"></span>
+  <span class="blinking-cursor">|</span>
+</div>
+
 <script>
   // Typing effect for hero subtitle
   const heroSubtitle = document.getElementById('hero-subtitle');
@@ -975,6 +1016,28 @@
   // Initialize position and start animation
   positionIcons(rotationX, rotationY);
   animate();
+
+
+  // New Animated Bot Text typing effect
+  const botMessageElem = document.getElementById('bot-message');
+  const message = "I'm Channakeshava Reddy, a Data Scientist passionate about building intelligent, real-world AI solutions using Machine Learning and modern technologies.";
+  let index = 0;
+
+  function typeBotMessage() {
+    if (index < message.length) {
+      botMessageElem.textContent += message.charAt(index);
+      index++;
+      setTimeout(typeBotMessage, 100); // typing speed in ms
+    } else {
+      setTimeout(() => {
+        botMessageElem.textContent = '';
+        index = 0;
+        typeBotMessage();
+      }, 2000); // pause 2 seconds before restarting
+    }
+  }
+
+  typeBotMessage();
 </script>
 
 </body>
